@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.translate
@@ -17,8 +20,6 @@ import com.example.speed_racer.R
 import com.example.speed_racer.presentation.game_screen.util.RoadLayoutManager
 import com.example.speed_racer.presentation.game_screen.util.dpToPx
 import com.example.speed_racer.ui.theme.Speed_racerTheme
-import kotlinx.coroutines.delay
-
 
 @Composable
 fun GameScreen() {
@@ -28,18 +29,21 @@ fun GameScreen() {
     val carPainter = painterResource(R.drawable.police)
     val roadLayout = RoadLayoutManager.calculateLayout(screenWidthDp, carPainter)
 
-    val carManager = remember { TrafficManager(screenHeight, roadLayout.carHeight, roadLayout.lanePositions) }
+    val carManager =
+        remember { TrafficManager(screenHeight, roadLayout.carHeight, roadLayout.lanePositions) }
 
-    LaunchedEffect(Unit) {
-        var lastUpdateTime = System.nanoTime()
-        while (true) {
-            val currentTime = System.nanoTime()
-            val deltaTime = (currentTime - lastUpdateTime) / 1_000_000_000f
-            lastUpdateTime = currentTime
+    val isActive by remember { mutableStateOf(true) }
 
-            carManager.update(deltaTime)
-            carManager.trySpawnCar()
-            delay(12L)
+    LaunchedEffect(isActive) {
+        var lastFrameTime = 0L
+        while (isActive) {
+            withFrameNanos { frameTime ->
+                if (lastFrameTime == 0L) lastFrameTime = frameTime
+                val deltaTime = (frameTime - lastFrameTime) / 1_000_000_000f
+                lastFrameTime = frameTime
+                carManager.update(deltaTime)
+                carManager.trySpawnCar()
+            }
         }
     }
 
@@ -53,7 +57,6 @@ fun GameScreen() {
         }
     }
 }
-
 
 @Composable
 @Preview
