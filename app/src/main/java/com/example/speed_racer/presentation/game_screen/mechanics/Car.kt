@@ -1,4 +1,4 @@
-package com.example.speed_racer.presentation.game_screen
+package com.example.speed_racer.presentation.game_screen.mechanics
 
 import androidx.compose.ui.geometry.Offset
 
