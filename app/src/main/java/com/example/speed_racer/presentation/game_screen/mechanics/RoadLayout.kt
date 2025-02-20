@@ -1,4 +1,4 @@
-package com.example.speed_racer.presentation.game_screen.util
+package com.example.speed_racer.presentation.game_screen.mechanics
 
 data class RoadLayout(
     val roadLaneWidth: Float,
