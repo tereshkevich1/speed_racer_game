@@ -1,4 +1,4 @@
-package com.example.speed_racer.presentation.game_screen.components.joustick
+package com.example.speed_racer.presentation.game_screen.components.joystick
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures

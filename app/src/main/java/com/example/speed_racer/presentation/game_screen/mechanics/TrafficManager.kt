@@ -18,6 +18,7 @@ class TrafficManager(
     private val lanePositions: List<Float>
 ) {
     private val cars = mutableStateListOf<Car>()
+    private val carPool = mutableStateListOf<Car>()
     var isTrafficEnabled by mutableStateOf(true)
         private set
 
@@ -45,17 +46,23 @@ class TrafficManager(
     fun trySpawnCar() {
         if (Random.nextFloat() < SPAWN_PROBABILITY) {
             val laneIndex = lanePositions.indices.random()
-            if (isSpawnSafe(laneIndex) && !cars.filter { car ->
-                    car.laneIndex == laneIndex
-                }.any { car ->
-                    car.position.y < carHeight
-                }) {
-                val car = Car(
-                    position = Offset(lanePositions[laneIndex], -carHeight),
-                    speed = CarSpeed.AVG_SPEED.speed,
-                    laneIndex = laneIndex
-                )
-                cars.add(car)
+            if (isSpawnSafe(laneIndex)) {
+                val newPosition = Offset(lanePositions[laneIndex], -carHeight)
+                val carFromPool = carPool.removeFirstOrNull()
+
+                if (carFromPool != null) {
+                    carFromPool.position = newPosition
+                    carFromPool.laneIndex = laneIndex
+                    cars.add(carFromPool)
+                } else {
+                    cars.add(
+                        Car(
+                            position = newPosition,
+                            speed = CarSpeed.AVG_SPEED.speed,
+                            laneIndex = laneIndex
+                        )
+                    )
+                }
             }
         }
     }
@@ -67,6 +74,15 @@ class TrafficManager(
 
         // The position from which the new car spawns (off-screen at the top)
         val spawnY = -carHeight
+
+        val closestCarInTargetLane = cars.filter { it.laneIndex == laneIndex }
+            .minByOrNull { it.position.y }
+        if (closestCarInTargetLane != null) {
+            val distanceToClosestCar = closestCarInTargetLane.position.y - spawnY
+            if (distanceToClosestCar < carHeight) {
+                return false
+            }
+        }
 
         // For each lane, get the position of the topmost car.
         // If there are no cars in the lane, it is considered free (the value is set to a very high number).

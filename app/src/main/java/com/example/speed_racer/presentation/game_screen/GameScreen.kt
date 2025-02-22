@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.speed_racer.R
 import com.example.speed_racer.presentation.game_screen.components.AnimatePlayerCar
 import com.example.speed_racer.presentation.game_screen.components.AnimateTraffic
-import com.example.speed_racer.presentation.game_screen.components.joustick.Joystick
+import com.example.speed_racer.presentation.game_screen.components.joystick.Joystick
 import com.example.speed_racer.presentation.game_screen.mechanics.PlayerCarController
 import com.example.speed_racer.presentation.game_screen.mechanics.TrafficManager
 import com.example.speed_racer.presentation.game_screen.util.constants.GameConstants

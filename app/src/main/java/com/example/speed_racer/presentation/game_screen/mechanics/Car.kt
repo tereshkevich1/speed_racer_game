@@ -5,5 +5,5 @@ import androidx.compose.ui.geometry.Offset
 data class Car(
     var position: Offset,
     val speed: Float,
-    val laneIndex: Int,
+    var laneIndex: Int,
 )
