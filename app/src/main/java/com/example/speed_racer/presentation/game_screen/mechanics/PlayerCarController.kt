@@ -12,10 +12,11 @@ import kotlin.math.sin
 
 class PlayerCarController(
     screenHeight: Float,
-    private val screenWidthDp: Float,
+    screenWidthDp: Float,
     carHeight: Float,
-    private val carWidth: Float,
-    bottomPadding: Float
+    carWidth: Float,
+    bottomPadding: Float,
+    private val lanePositions: List<Float>
 ) {
     private var xSpeed by mutableFloatStateOf(0f)
     private var ySpeed by mutableFloatStateOf(0f)
@@ -52,8 +53,8 @@ class PlayerCarController(
         val xDelta = restrictToBounds(
             current = car.position.x,
             delta = baseSpeed * GameConstants.X_SPEED_MULTIPLIER * deltaTime * xSpeed,
-            min = -GameConstants.SCREEN_X_PADDING,
-            max = screenWidthDp - carWidth + GameConstants.SCREEN_X_PADDING
+            min = lanePositions.first(),
+            max = lanePositions.last()
         )
         val yDelta = restrictToBounds(
             current = car.position.y,

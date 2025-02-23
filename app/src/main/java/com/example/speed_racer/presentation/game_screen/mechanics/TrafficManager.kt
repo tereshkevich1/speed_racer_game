@@ -78,8 +78,7 @@ class TrafficManager(
         val closestCarInTargetLane = cars.filter { it.laneIndex == laneIndex }
             .minByOrNull { it.position.y }
         if (closestCarInTargetLane != null) {
-            val distanceToClosestCar = closestCarInTargetLane.position.y - spawnY
-            if (distanceToClosestCar < carHeight) {
+            if (closestCarInTargetLane.position.y < carHeight) {
                 return false
             }
         }
@@ -100,6 +99,7 @@ class TrafficManager(
         // If at least one lane is free (no car in the spawn zone), spawning is safe
         val accessibleLanes = listOf(laneIndex - 1, laneIndex, laneIndex + 1)
             .filter { it in 0 until RoadConfig.NUMBER_OF_LANES }
+
 
         if (accessibleLanes.any { lane ->
                 laneTopYPositions[lane] >= carHeight

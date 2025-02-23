@@ -8,7 +8,8 @@ object GameConstants {
     val JOYSTICK_SIZE = 150.dp
 
     const val EXTRA_BOTTOM_PADDING = 120f
-    const val SCREEN_X_PADDING = 30f
+    const val COLLISION_VERTICAL_PADDING = 20f
+    const val COLLISION_HORIZONTAL_PADDING = 20f
 
     const val X_SPEED_MULTIPLIER = 2f
     const val Y_SPEED_BOOST = 4f
