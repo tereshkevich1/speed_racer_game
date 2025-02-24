@@ -4,7 +4,7 @@ object RoadConfig {
     const val NUMBER_OF_LANES = 4
     const val ROAD_MARKING_WIDTH = 5f
     const val HORIZONTAL_PADDING = 5f
-    const val CAR_WIDTH_RATIO = 1.4f
+    const val CAR_WIDTH_RATIO = 0.7f
 }
 
 

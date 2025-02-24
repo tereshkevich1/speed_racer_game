@@ -17,11 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.example.speed_racer.R
 import com.example.speed_racer.presentation.game_screen.components.AnimatePlayerCar
 import com.example.speed_racer.presentation.game_screen.components.AnimateTraffic
-import com.example.speed_racer.presentation.game_screen.components.joustick.Joystick
+import com.example.speed_racer.presentation.game_screen.components.joystick.Joystick
+import com.example.speed_racer.presentation.game_screen.mechanics.CollisionManager
 import com.example.speed_racer.presentation.game_screen.mechanics.PlayerCarController
+import com.example.speed_racer.presentation.game_screen.mechanics.RoadLayoutManager
 import com.example.speed_racer.presentation.game_screen.mechanics.TrafficManager
 import com.example.speed_racer.presentation.game_screen.util.constants.GameConstants
-import com.example.speed_racer.presentation.game_screen.mechanics.RoadLayoutManager
 import com.example.speed_racer.presentation.game_screen.util.dpToPx
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
@@ -33,8 +34,8 @@ fun GameScreen() {
     val screenWidthDp = dpToPx(LocalConfiguration.current.screenWidthDp.dp)
     val screenHeight = dpToPx(LocalConfiguration.current.screenHeightDp.dp)
 
-    val carPainter = painterResource(R.drawable.police)
-    val userCarPainter = painterResource(R.drawable.user_car_3)
+    val carPainter = painterResource(R.drawable.clipped_police)
+    val userCarPainter = painterResource(R.drawable.clipped_user_car)
     val roadLayout = RoadLayoutManager.calculateLayout(screenWidthDp, carPainter)
 
     val trafficManager =
@@ -46,11 +47,25 @@ fun GameScreen() {
             screenWidthDp = screenWidthDp,
             carHeight = roadLayout.carHeight,
             carWidth = roadLayout.carWidth,
-            bottomPadding = bottomPlayerCarPadding
+            bottomPadding = bottomPlayerCarPadding,
+            lanePositions = roadLayout.lanePositions
         )
     }
 
-    AnimateTraffic(trafficManager)
+    val collisionManager = remember {
+        CollisionManager(
+            playerCarController = playerCarController,
+            trafficManager = trafficManager,
+            carWidth = roadLayout.carWidth,
+            carHeight = roadLayout.carHeight
+        )
+    }
+    collisionManager.onCollision = {
+        trafficManager.disableTraffic()
+        playerCarController.stopCar()
+    }
+
+    AnimateTraffic(trafficManager, collisionManager)
     AnimatePlayerCar(playerCarController)
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
@@ -75,7 +90,9 @@ fun GameScreen() {
 
         Joystick(
             onMove = { angle, strength ->
-                playerCarController.onMoveCar(angle, strength)
+                if (!collisionManager.isCollisionDetected) {
+                    playerCarController.onMoveCar(angle, strength)
+                }
             },
             onEndMove = {
                 playerCarController.stopCar()
