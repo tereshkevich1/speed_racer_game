@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">speed_racer</string>
+
+    <string name="game_title_description">Game Title</string>
+    <string name="best_score_label">Best Score</string>
+    <string name="start_game_button">START GAME</string>
+
+    <string name="game_over_description">Game Over</string>
 </resources>
