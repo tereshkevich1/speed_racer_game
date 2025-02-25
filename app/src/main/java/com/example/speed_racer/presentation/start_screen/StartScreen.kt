@@ -21,7 +21,7 @@ import com.example.speed_racer.presentation.start_screen.components.StartGameBut
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
 @Composable
-fun StartScreen() {
+fun StartScreen(onStartGameButtonClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +43,7 @@ fun StartScreen() {
         BestScore("23")
         Spacer(modifier = Modifier.weight(1.9f))
 
-        StartGameButton(onClick = {})
+        StartGameButton(onClick = onStartGameButtonClick)
         Spacer(modifier = Modifier.weight(1.6f))
     }
 }
@@ -53,7 +53,7 @@ fun StartScreen() {
 fun StartScreenPreview() {
     Speed_racerTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            StartScreen()
+            StartScreen{}
         }
     }
 }
