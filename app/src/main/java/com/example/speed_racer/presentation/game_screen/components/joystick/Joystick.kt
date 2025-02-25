@@ -14,12 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
-import com.example.speed_racer.R
 import com.example.speed_racer.presentation.game_screen.util.constants.Colors
 import com.example.speed_racer.presentation.game_screen.util.constants.GameConstants
 import com.example.speed_racer.presentation.game_screen.util.dpToPx
+import com.example.speed_racer.ui.theme.DpSpSize
 import kotlin.math.atan2
 import kotlin.math.hypot
 
@@ -28,7 +27,7 @@ fun Joystick(
     onMove: (angle: Float, strength: Float) -> Unit,
     onEndMove: () -> Unit,
     size: Dp = GameConstants.JOYSTICK_SIZE,
-    bottomPadding: Dp = dimensionResource(R.dimen.bottom_joystick_padding)
+    bottomPadding: Dp = DpSpSize.BottomJoystickPadding
 ) {
     val sizePx = dpToPx(size)
     val center = Offset(sizePx / 2, sizePx / 2)
