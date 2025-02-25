@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.speed_racer.R
 import com.example.speed_racer.presentation.start_screen.components.BestScore
 import com.example.speed_racer.presentation.start_screen.components.StartGameButton
+import com.example.speed_racer.ui.theme.DpSpSize
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
 @Composable
@@ -36,7 +37,7 @@ fun StartScreen(onStartGameButtonClick: () -> Unit) {
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = dimensionResource(R.dimen.top_game_title_padding))
+                .padding(top = DpSpSize.TopGameTitlePadding)
         )
 
         Spacer(modifier = Modifier.weight(1f))

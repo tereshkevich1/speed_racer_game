@@ -13,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.speed_racer.R
+import com.example.speed_racer.ui.theme.BestScoreBackgroundColor
+import com.example.speed_racer.ui.theme.DpSpSize
 
 @Composable
 fun BestScore(bestScoreValue: String) {
-    val backgroundColor = colorResource(R.color.best_score_background_color)
     val textStyle = MaterialTheme.typography.displayMedium.copy(
         fontWeight = FontWeight.Bold,
         color = Color.White
@@ -31,10 +31,10 @@ fun BestScore(bestScoreValue: String) {
     )
 
     val textModifier = Modifier
-        .background(backgroundColor)
+        .background(BestScoreBackgroundColor)
         .padding(
-            horizontal = dimensionResource(R.dimen.best_score_padding_horizontal),
-            vertical = dimensionResource(R.dimen.best_score_padding_vertical)
+            horizontal = DpSpSize.BestScorePaddingHorizontal,
+            vertical = DpSpSize.BestScorePaddingVertical
         )
 
     Column(
@@ -48,9 +48,9 @@ fun BestScore(bestScoreValue: String) {
             style = textStyle,
             modifier = textModifier
         )
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacer_small)))
+        Spacer(modifier = Modifier.height(DpSpSize.SpacerSmall))
         Text(
-            text = "Best Score",
+            text = stringResource(R.string.best_score_label),
             style = labelStyle,
             modifier = textModifier
         )

@@ -10,23 +10,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.speed_racer.R
+import com.example.speed_racer.ui.theme.DpSpSize
+import com.example.speed_racer.ui.theme.StartGameBackgroundColor
 
 @Composable
 fun StartGameButton(onClick: () -> Unit) {
-    val backgroundButtonColor = colorResource(R.color.start_game_background_color)
     Button(
         onClick = onClick,
         shape = MaterialTheme.shapes.extraLarge,
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundButtonColor),
+        colors = ButtonDefaults.buttonColors(containerColor = StartGameBackgroundColor),
         modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.button_height))
-            .padding(horizontal = dimensionResource(R.dimen.button_padding_horizontal))
+            .height(DpSpSize.ButtonHeight)
+            .padding(horizontal = DpSpSize.ButtonPaddingHorizontal)
     ) {
         Text(
             text = stringResource(R.string.start_game_button),

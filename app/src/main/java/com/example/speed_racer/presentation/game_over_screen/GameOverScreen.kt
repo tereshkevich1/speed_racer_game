@@ -11,21 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.speed_racer.R
+import com.example.speed_racer.ui.theme.DpSpSize
+import com.example.speed_racer.ui.theme.GameOverScreenBackgroundColor
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
 @Composable
 fun GameOverScreen() {
-    val backgroundColor = colorResource(R.color.game_over_screen_background_color)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor),
+            .background(GameOverScreenBackgroundColor),
         contentAlignment = Alignment.Center
     )
     {
@@ -35,7 +34,7 @@ fun GameOverScreen() {
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = dimensionResource(R.dimen.game_over_image_padding_bottom))
+                .padding(bottom = DpSpSize.GameOverImagePaddingBottom)
         )
     }
 }
