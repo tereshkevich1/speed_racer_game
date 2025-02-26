@@ -6,30 +6,34 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.speed_racer.presentation.game_over_screen.GameOverScreen
 import com.example.speed_racer.presentation.game_screen.GameScreen
+import com.example.speed_racer.presentation.navigation.util.navigateSingleTop
 import com.example.speed_racer.presentation.start_screen.StartScreen
 
 fun NavGraphBuilder.addGameRoute(navController: NavHostController) {
     navigation<GameDestinations.GameNav>(startDestination = GameDestinations.StartScreen) {
         startScreenDestination(navController)
-        gameScreenDestination()
-        gameOverScreenDestination()
+        gameScreenDestination(navController)
+        gameOverScreenDestination(navController)
     }
 }
 
 fun NavGraphBuilder.startScreenDestination(navController: NavHostController) {
     composable<GameDestinations.StartScreen> {
-        StartScreen(onStartGameButtonClick = { navController.navigate(GameDestinations.GameScreen) })
+        StartScreen(onStartGameButtonClick = {
+            navController.navigateSingleTop(GameDestinations.GameScreen)
+        })
     }
 }
 
-fun NavGraphBuilder.gameScreenDestination() {
+fun NavGraphBuilder.gameScreenDestination(navController: NavHostController) {
     composable<GameDestinations.GameScreen> {
-        GameScreen()
+        GameScreen(onGameOver = { navController.navigateSingleTop(GameDestinations.GameOverScreen) },
+            onNavigateToStartScreen = { navController.navigateSingleTop(GameDestinations.StartScreen) })
     }
 }
 
-fun NavGraphBuilder.gameOverScreenDestination() {
+fun NavGraphBuilder.gameOverScreenDestination(navController: NavHostController) {
     composable<GameDestinations.GameOverScreen> {
-        GameOverScreen()
+        GameOverScreen(onNavigateToStartScreen = { navController.navigateSingleTop(GameDestinations.StartScreen) })
     }
 }

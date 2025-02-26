@@ -6,4 +6,6 @@
     <string name="start_game_button">START GAME</string>
 
     <string name="game_over_description">Game Over</string>
+    <string name="game_time">Время: %1$d:%2$02d</string>
+    <string name="game_score">Очки: %1$d</string>
 </resources>

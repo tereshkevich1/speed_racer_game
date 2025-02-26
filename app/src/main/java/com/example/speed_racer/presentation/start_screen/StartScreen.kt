@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.speed_racer.R
 import com.example.speed_racer.presentation.start_screen.components.BestScore
 import com.example.speed_racer.presentation.start_screen.components.StartGameButton
@@ -21,7 +23,11 @@ import com.example.speed_racer.ui.theme.DpSpSize
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
 @Composable
-fun StartScreen(onStartGameButtonClick: () -> Unit) {
+fun StartScreen(
+    startScreenViewModel: StartScreenViewModel = hiltViewModel(),
+    onStartGameButtonClick: () -> Unit
+) {
+    val bestScoreState = startScreenViewModel.bestScore.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +46,7 @@ fun StartScreen(onStartGameButtonClick: () -> Unit) {
         )
 
         Spacer(modifier = Modifier.weight(1f))
-        BestScore("23")
+        BestScore(bestScoreState.value)
         Spacer(modifier = Modifier.weight(1.9f))
 
         StartGameButton(onClick = onStartGameButtonClick)
@@ -53,7 +59,7 @@ fun StartScreen(onStartGameButtonClick: () -> Unit) {
 fun StartScreenPreview() {
     Speed_racerTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            StartScreen{}
+            StartScreen {}
         }
     }
 }

@@ -30,6 +30,7 @@ class PlayerCarController(
 
     var car by mutableStateOf(
         Car(
+            id = 1,
             position = initialCarPosition,
             speed = CarSpeed.AVG_SPEED.speed,
             laneIndex = 2
