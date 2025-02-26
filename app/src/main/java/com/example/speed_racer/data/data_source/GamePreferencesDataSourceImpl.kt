@@ -22,7 +22,10 @@ class GamePreferencesDataSourceImpl @Inject constructor(
     override suspend fun saveIntValue(key: String, value: Int) {
         val prefKey = intPreferencesKey(key)
         dataStore.edit { preferences ->
-            preferences[prefKey] = value
+            val currentValue = preferences[prefKey] ?: Int.MIN_VALUE
+            if (value > currentValue) {
+                preferences[prefKey] = value
+            }
         }
     }
 }

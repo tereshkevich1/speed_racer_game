@@ -38,7 +38,7 @@ fun GameScreen(
     gameScreenViewModel: GameScreenViewModel = hiltViewModel(),
 ) {
     val remainingTime by gameScreenViewModel.remainingTime.collectAsState()
-    //val score by gameScreenViewModel.score.collectAsState()
+    val score by gameScreenViewModel.score.collectAsState()
 
     val joystickSizePx = dpToPx(GameConstants.JOYSTICK_SIZE)
     val bottomPlayerCarPadding = joystickSizePx + GameConstants.EXTRA_BOTTOM_PADDING
@@ -74,12 +74,16 @@ fun GameScreen(
     collisionManager.onCollision = {
         trafficManager.disableTraffic()
         playerCarController.stopCar()
-        //gameScreenViewModel.saveBestScore()
+        gameScreenViewModel.saveBestScore()
         onGameOver()
     }
 
+    collisionManager.onOvertake = {
+        gameScreenViewModel.incrementScore()
+    }
+
     if (remainingTime == 0) {
-        gameScreenViewModel.saveBestScore(122)
+        gameScreenViewModel.saveBestScore()
         onNavigateToStartScreen()
     }
 
@@ -113,7 +117,7 @@ fun GameScreen(
 
         GameInfoBar(
             remainingTime = remainingTime,
-            score = 2,
+            score = score,
             modifier = Modifier.align(Alignment.TopCenter)
         )
 

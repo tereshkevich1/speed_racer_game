@@ -19,6 +19,7 @@ class TrafficManager(
 ) {
     private val cars = mutableStateListOf<Car>()
     private val carPool = mutableStateListOf<Car>()
+    private var nextCarId = 0
     var isTrafficEnabled by mutableStateOf(true)
         private set
 
@@ -57,6 +58,7 @@ class TrafficManager(
                 } else {
                     cars.add(
                         Car(
+                            id = nextCarId++,
                             position = newPosition,
                             speed = CarSpeed.AVG_SPEED.speed,
                             laneIndex = laneIndex

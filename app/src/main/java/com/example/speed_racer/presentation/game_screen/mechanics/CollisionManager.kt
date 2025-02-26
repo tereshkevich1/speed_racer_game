@@ -18,6 +18,8 @@ class CollisionManager(
         private set
 
     var onCollision: (() -> Unit)? = null
+    var onOvertake: (() -> Unit)? = null
+    private val overtakenCarIds = mutableSetOf<Int>()
 
     fun checkCollisions() {
         if (!trafficManager.isTrafficEnabled) {
@@ -28,13 +30,21 @@ class CollisionManager(
         val playerCar = playerCarController.car
         val trafficCars = trafficManager.getCars()
 
-        isCollisionDetected = trafficCars.any { trafficCar ->
-            isCollision(
-                playerX = playerCar.position.x,
-                playerY = playerCar.position.y,
-                trafficX = trafficCar.position.x,
-                trafficY = trafficCar.position.y
-            )
+        trafficCars.forEach { trafficCar ->
+            if (!isCollisionDetected && isCollision(
+                    playerX = playerCar.position.x,
+                    playerY = playerCar.position.y,
+                    trafficX = trafficCar.position.x,
+                    trafficY = trafficCar.position.y
+                )
+            ) {
+                isCollisionDetected = true
+            }
+
+            if (playerCar.position.y + carHeight < trafficCar.position.y && trafficCar.id !in overtakenCarIds) {
+                overtakenCarIds.add(trafficCar.id)
+                onOvertake?.invoke()
+            }
         }
 
         if (isCollisionDetected) {

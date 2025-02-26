@@ -17,6 +17,9 @@ class GameScreenViewModel @Inject constructor(private val saveBestScoreUseCase: 
     private val _remainingTime = MutableStateFlow(GAME_DURATION_SECONDS)
     val remainingTime = _remainingTime.asStateFlow()
 
+    private val _score = MutableStateFlow(0)
+    val score = _score.asStateFlow()
+
     init {
         startTimer()
     }
@@ -30,9 +33,13 @@ class GameScreenViewModel @Inject constructor(private val saveBestScoreUseCase: 
         }
     }
 
-    fun saveBestScore(value: Int) {
+    fun incrementScore() {
+        _score.value += 1
+    }
+
+    fun saveBestScore() {
         viewModelScope.launch {
-            saveBestScoreUseCase(value)
+            saveBestScoreUseCase(score.value)
         }
     }
 }
