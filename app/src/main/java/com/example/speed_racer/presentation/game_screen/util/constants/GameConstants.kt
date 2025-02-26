@@ -13,4 +13,7 @@ object GameConstants {
 
     const val X_SPEED_MULTIPLIER = 2f
     const val Y_SPEED_BOOST = 4f
+
+    const val GAME_OVER_DELAY_MS = 3000L
+    const val GAME_DURATION_SECONDS = 180
 }

@@ -11,4 +11,6 @@ object DpSpSize {
     val ButtonHeight = 60.dp
     val ButtonPaddingHorizontal = 33.dp
     val GameOverImagePaddingBottom = 32.dp
+    val GameInfoPaddingTop = 52.dp
+    val GameInfoPaddingHorizontal = 12.dp
 }
