@@ -6,5 +6,6 @@ data class RoadLayout(
     val carHeight: Float,
     val firstLaneCenter: Float,
     val laneSpacing: Float,
-    val lanePositions: List<Float>
+    val lanePositions: List<Float>,
+    val roadMarkPositions: List<Float>
 )

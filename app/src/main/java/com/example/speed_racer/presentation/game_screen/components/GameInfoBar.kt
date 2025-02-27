@@ -11,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.speed_racer.R
 import com.example.speed_racer.ui.theme.DpSpSize
+import com.example.speed_racer.ui.theme.GameInfoTextColor
 
 @Composable
 fun GameInfoBar(remainingTime: Int, score: Int, modifier: Modifier) {
     val textStyle = MaterialTheme.typography.bodyLarge
-    val textColor = MaterialTheme.colorScheme.onBackground
+    val textColor = GameInfoTextColor
     Row(
         modifier = modifier
             .fillMaxWidth()

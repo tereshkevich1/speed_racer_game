@@ -1,6 +1,7 @@
 package com.example.speed_racer.presentation.game_screen
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -26,9 +27,11 @@ import com.example.speed_racer.presentation.game_screen.components.rememberBitma
 import com.example.speed_racer.presentation.game_screen.mechanics.CollisionManager
 import com.example.speed_racer.presentation.game_screen.mechanics.PlayerCarController
 import com.example.speed_racer.presentation.game_screen.mechanics.RoadLayoutManager
+import com.example.speed_racer.presentation.game_screen.mechanics.RoadMarkingsManager
 import com.example.speed_racer.presentation.game_screen.mechanics.TrafficManager
 import com.example.speed_racer.presentation.game_screen.util.constants.GameConstants
 import com.example.speed_racer.presentation.game_screen.util.dpToPx
+import com.example.speed_racer.ui.theme.GameScreenBackgroundColor
 import com.example.speed_racer.ui.theme.Speed_racerTheme
 
 @Composable
@@ -51,6 +54,13 @@ fun GameScreen(
 
     val trafficManager =
         remember { TrafficManager(screenHeight, roadLayout.carHeight, roadLayout.lanePositions) }
+
+    val roadMarkingsManager = remember {
+        RoadMarkingsManager(
+            screenHeight = screenHeight,
+            roadMarkPositions = roadLayout.roadMarkPositions
+        )
+    }
 
     val playerCarController = remember {
         PlayerCarController(
@@ -87,14 +97,21 @@ fun GameScreen(
         onNavigateToStartScreen()
     }
 
-    AnimateTraffic(trafficManager, collisionManager)
+    AnimateTraffic(trafficManager, collisionManager, roadMarkingsManager)
     AnimatePlayerCar(playerCarController)
 
     val policeBitmap = rememberBitmap(R.drawable.clipped_police)
     val userBitmap = rememberBitmap(R.drawable.clipped_user_car)
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(GameScreenBackgroundColor),
+        contentAlignment = Alignment.BottomCenter
+    ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
+            roadMarkingsManager.draw(this)
+
             trafficManager.getCars().forEach { car ->
                 drawImage(
                     image = policeBitmap,
