@@ -25,6 +25,19 @@ object RoadLayoutManager {
             firstLaneCenter + laneSpacing * index
         }
 
-        return RoadLayout(roadLaneWidth, carWidth, carHeight, firstLaneCenter, laneSpacing, lanePositions)
+        val firstRoadCenter = HORIZONTAL_PADDING + ROAD_MARKING_WIDTH / 4
+        val roadMarkPositions = List(NUMBER_OF_LANES + 1) { index ->
+            firstRoadCenter + laneSpacing * index
+        }
+
+        return RoadLayout(
+            roadLaneWidth,
+            carWidth,
+            carHeight,
+            firstLaneCenter,
+            laneSpacing,
+            lanePositions,
+            roadMarkPositions
+        )
     }
 }

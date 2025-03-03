@@ -19,6 +19,7 @@ class TrafficManager(
 ) {
     private val cars = mutableStateListOf<Car>()
     private val carPool = mutableStateListOf<Car>()
+    private var nextCarId = 0
     var isTrafficEnabled by mutableStateOf(true)
         private set
 
@@ -40,7 +41,12 @@ class TrafficManager(
                 )
             )
         }
-        cars.removeAll { it.position.y - carHeight > screenHeight }
+        val removedCars = cars.filter { it.position.y - carHeight > screenHeight }
+        cars.removeAll(removedCars)
+
+        if (carPool.size < MAX_POOL_SIZE) {
+            carPool.addAll(removedCars)
+        }
     }
 
     fun trySpawnCar() {
@@ -58,6 +64,7 @@ class TrafficManager(
                 } else {
                     cars.add(
                         Car(
+                            id = nextCarId++,
                             position = newPosition,
                             speed = CarSpeed.AVG_SPEED.speed,
                             laneIndex = laneIndex
@@ -79,7 +86,7 @@ class TrafficManager(
         val closestCarInTargetLane = cars.filter { it.laneIndex == laneIndex }
             .minByOrNull { it.position.y }
         if (closestCarInTargetLane != null) {
-            if (closestCarInTargetLane.position.y < carHeight) {
+            if (closestCarInTargetLane.position.y < minVerticalGap) {
                 return false
             }
         }
@@ -101,13 +108,6 @@ class TrafficManager(
         val accessibleLanes = listOf(laneIndex - 1, laneIndex, laneIndex + 1)
             .filter { it in 0 until RoadConfig.NUMBER_OF_LANES }
 
-
-        if (accessibleLanes.any { lane ->
-                laneTopYPositions[lane] >= carHeight
-            }) {
-            return true
-        }
-
         // Check the gaps between adjacent lanes based on their order.
         // Here, the order of elements in laneTopYPositions corresponds to the order of lanes (e.g., from left to right).
         for (i in 0 until laneTopYPositions.size - 1) {
@@ -117,6 +117,15 @@ class TrafficManager(
                 return true
             }
         }
-        return false
+
+        return accessibleLanes.any { lane ->
+            laneTopYPositions[lane] >= minVerticalGap * 1.2f
+        }
+    }
+
+    companion object {
+        private const val MAX_POOL_SIZE = 20
     }
 }
+
+
