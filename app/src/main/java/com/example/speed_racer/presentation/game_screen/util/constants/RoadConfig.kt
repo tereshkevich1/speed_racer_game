@@ -1,7 +1,7 @@
 package com.example.speed_racer.presentation.game_screen.util.constants
 
 object RoadConfig {
-    const val NUMBER_OF_LANES = 4
+    const val NUMBER_OF_LANES = 20
     const val ROAD_MARKING_WIDTH = 20f
     const val ROAD_MARKING_HEIGHT = 200f
     const val ROAD_MARKING_SPACING = 30f

@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.example.speed_racer.presentation.game_screen.util.constants.RoadConfig.CAR_WIDTH_RATIO
 import com.example.speed_racer.presentation.game_screen.util.constants.RoadConfig.HORIZONTAL_PADDING
 import com.example.speed_racer.presentation.game_screen.util.constants.RoadConfig.NUMBER_OF_LANES
-import com.example.speed_racer.presentation.game_screen.util.constants.RoadConfig.ROAD_MARKING_SPACING
 import com.example.speed_racer.presentation.game_screen.util.constants.RoadConfig.ROAD_MARKING_WIDTH
 
 object RoadLayoutManager {
