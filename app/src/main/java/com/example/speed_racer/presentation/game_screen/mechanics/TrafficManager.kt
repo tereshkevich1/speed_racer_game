@@ -57,6 +57,7 @@ class TrafficManager(
                 val carFromPool = carPool.removeFirstOrNull()
 
                 if (carFromPool != null) {
+                    carFromPool.id = nextCarId++
                     carFromPool.position = newPosition
                     carFromPool.laneIndex = laneIndex
                     cars.add(carFromPool)
